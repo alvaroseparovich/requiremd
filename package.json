@@ -12,5 +12,10 @@
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
     "jest": "^25.2.3"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "utils": "^0.3.1"
   }
 }
