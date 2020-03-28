@@ -1,7 +1,6 @@
 # requiremd
 
 This is a module to fastly get your markdown archive to a object friendly
----
 
 ## How to use
 
