@@ -22,53 +22,40 @@ const path = require('path')
  */
 async function getFile(file) {
   const filePath = path.join(__dirname, file)
-  const r = await fs.readFile(filePath, 'utf8').then((i)=>i)
+  const r = await fs.readFile(filePath, 'utf8').then(i=>i)
   return r
 }
 
 /**
  * GET THE LOCATION OF FIRST AND LAST SEPARATORS LIKE '---'
  *
- * @param {Array} linesArray | Array to search
+ * @param {String} text | Array to search
  * @param {Number} limit | Limit of lines for iteration
  *
- * @return {Object} { first: <number>, last:<number> }
+ * @return {Object} { data:<Stirng>, body:<String> }
  */
-const getSeparatorLocation = (linesArray, limit = 30) => {
+const getDataAndBody = (text, limit = 30) => {
   const metaData = {}
-
-  for (line in linesArray) {
-    if (line < limit) {
-      if (linesArray[line] === '---') {
-        if (!metaData.first) {
-          metaData.first = line
-        } else if (!metaData.last) {
-          metaData.last = line
-        }
-      }
-    }
+  const separatorLocation = text.search('\n---\n')
+  return {
+    data: text.substr(0, separatorLocation),
+    body: text.substr(separatorLocation + 5)
   }
-  return metaData
 }
 
 /**
  *  GET DE OBJ FROM FIRST LINES OF MARKDOWN ARRAY
  *
- * @param {Array} rawMDLines | MarkDown Array
- * @param {Number} firstDash | Where is the first line of object
- * @param {Number} lastDash | Where is the last line of object
+ * @param {Array} rawMDLines | MarkDown comment content Array
  *
  * @return {Object} | Object that was in MarkDown array
  */
-const getObjInMD = (rawMDLines, firstDash, lastDash) => {
+const getObjInMD = (rawMDLines) => {
   const obj = {}
-  let i = parseInt(firstDash) + 1
   let keyValue
-
-  while (i < lastDash) {
+  for (i in rawMDLines) {
     keyValue = rawMDLines[i].split(':')
     obj[keyValue[0]] = keyValue[1].trim()
-    i ++
   }
   return obj
 }
@@ -82,23 +69,18 @@ const getObjInMD = (rawMDLines, firstDash, lastDash) => {
  *
  * @return {Object} | {body:<MarkDown content>, ...<All parameters in markdown>}
  */
-module.exports = async function parsemd(file, limit = 30, returnMeta = false) {
+module.exports = async function parsemd(file, limit = 30) {
   const rawMDFile = await getFile(file)
-  const rawMDLines = rawMDFile.split('\n')
+  const rawMD = getDataAndBody(rawMDFile, limit)
 
-  const dash = getSeparatorLocation(rawMDLines, limit)
-  const metaData = {
-    dash,
-    content: getObjInMD(rawMDLines, dash.first, dash.last),
+  const dataLines = rawMD.data.split('\n')
+  dataLines.reverse().pop()
+  dataLines.reverse()
+
+  const response = {
+    body: rawMD.body,
+    data: getObjInMD(dataLines)
   }
 
-  if (returnMeta) {
-    return metaData
-  } else {
-    response = {
-      body: rawMDLines.slice(parseInt(metaData.dash.last) + 1).join('\n'),
-      ...metaData.content,
-    }
-    return response
-  }
+  return response
 }

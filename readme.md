@@ -1,6 +1,6 @@
 # requiremd
 
-This is a module to fastly get your markdown archive to a object friendly
+This is a module to fastly get your markdown archive to a object.
 
 ## How to use
 
@@ -27,14 +27,12 @@ Here a example of output:
 ```json
 {
   "body": "# Great Article\nGreat text",
-  "title": "Great article",
-  "author": "R.J. Rushdoony, J. Morecraft",
-  "data": "1989-10-10",
-  "article-tag": "Theonomy"
+  "data":{
+    "title": "Great article",
+    "author": "R.J. Rushdoony, J. Morecraft",
+    "data": "1989-10-10",
+    "article-tag": "Theonomy"
+  }
 }
 
 ```
-
-## Important
-
-Reserved word ```body```

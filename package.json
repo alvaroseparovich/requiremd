@@ -1,6 +1,6 @@
 {
   "name": "requiremd",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "This simple module get a MarkDown file as a object",
   "main": "index.js",
   "author": "Alvaro Separovich",
