@@ -1,4 +1,6 @@
-const fs = require('mz/fs')
+const fs = require('fs')
+const {promisify} = require('util')
+const readFileAsync = promisify(fs.readFile)
 const path = require('path')
 
 // IMPORTANT INFORMATION
@@ -22,8 +24,9 @@ const path = require('path')
  */
 async function getFile(file) {
   const filePath = path.join(__dirname, file)
-  const r = await fs.readFile(filePath, 'utf8').then(i=>i)
-  return r
+  return readFileAsync(filePath, 'utf8')
+  .then(data => data)
+  .catch(error => error)
 }
 
 /**

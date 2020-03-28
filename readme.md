@@ -1,6 +1,6 @@
 # requiremd
 
-This is a module to fastly get your markdown archive to a object.
+This is a module to fastly transform your markdown archive to a object.
 
 ## How to use
 

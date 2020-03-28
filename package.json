@@ -1,15 +1,12 @@
 {
   "name": "requiremd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This simple module get a MarkDown file as a object",
   "main": "index.js",
   "author": "Alvaro Separovich",
   "license": "MIT",
   "scripts": {
     "test": "jest"
-  },
-  "dependencies": {
-    "mz": "^2.7.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
